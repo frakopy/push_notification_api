@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheduled Tasks</title>
+    <style>
+        body { font-family: sans-serif; padding: 15px; background-color: #f4f7f6; font-size: 16px; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        h2 { color: #333; margin: 0; }
+        
+        /* Contenedor para hacer scroll en móviles */
+        .table-responsive { overflow-x: auto; width: 100%; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; min-width: 500px; }
+        th, td { padding: 14px 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #007bff; color: white; }
+        tr:hover { background-color: #f1f1f1; }
+        
+        /* Celda de acciones optimizada para dedos */
+        .action-cell { display: flex; gap: 10px; align-items: center; }
+        
+        /* Botones grandes y fáciles de tocar */
+        .btn-edit, .btn-delete {
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            color: white;
+            font-size: 14px;
+            flex: 1;
+            text-align: center;
+        }
+        .btn-edit { background-color: #007bff; }
+        .btn-delete { background-color: #dc3545; }
+        .btn-create { background-color: #28a745; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-actions">
+            <h2>Scheduled Tasks</h2>
+            <a href="https://f4ank-n8n.duckdns.org/form/a4d0f04f-a440-49b5-b77b-73614b01e58d" class="btn-create">+ Create Task</a>
+        </div>
+        
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Task to do</th>
+                        <th>Frequency</th>
+                        <th>Next Run</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in tasks %}
+                    <tr>
+                        <td>{{ task.message }}</td>
+                        <td>{{ task.frequency }}</td>
+                        <td>{{ task.next_run }}</td>
+                        <td>{{ task.status }}</td>
+                        <td class="action-cell">              
+                            <button type="button" class="btn-edit" onclick="window.location.href='http://192.168.0.64:1081/tasks/update/form?task_id={{ task.id }}'">
+                                Edit
+                            </button>  
+                            <form action="https://f4ank-n8n.duckdns.org/webhook/delete-tasks" method="POST" style="margin: 0; display: flex; flex: 1;">
+                                <input type="hidden" name="task_id" value="{{ task.id }}">
+                                <button type="submit" class="btn-delete" onclick="return confirm('Are you sure?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

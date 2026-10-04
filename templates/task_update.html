@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 400px;
+        }
+        h2 { 
+            text-align: center; 
+            margin-top: 0;
+        }
+        /* Styles for label */
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+            text-align: left;
+        }
+        /* Styles for select */
+        select {
+            width: 100%;           /* Ocupa todo el ancho */
+            padding: 10px;         /* Igual que tus inputs */
+            border: 1px solid #ccc; /* Igual que tus inputs */
+            border-radius: 6px;    /* Igual que tus inputs */
+            font-size: 16px;       /* Igual que tus inputs */
+            box-sizing: border-box; /* Asegura que el padding no desborde el ancho */
+            background-color: white; /* Asegura un fondo limpio */
+            appearance: none;      /* Opcional: elimina el estilo nativo del sistema para más control */
+        }
+        /* Styles for inputs */
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box; /* Crucial para mantener el padding dentro del ancho */
+        }
+        /* Styles for button */
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            background-color: #4dc1ff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover { background-color: #0073e6; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Update Task</h2>
+        <form id="updateForm">
+            
+            <label for="message">Task</label>
+            <input type="text" id="message" name="message" value="{{ task_fields.message }}">
+            
+            <label for="frequency">Frequency</label>
+            <select id="frequency" name="frequency">
+                <option value="Daily" {% if task_fields.frequency == 'Daily' %}selected{% endif %}>
+                    Daily
+                </option>
+                <option value="Weekly" {% if task_fields.frequency == 'Weekly' %}selected{% endif %}>
+                    Weekly
+                </option>
+                <option value="Monthly" {% if task_fields.frequency == 'Monthly' %}selected{% endif %}>
+                    Monthly
+                </option>
+            </select>
+
+            <label for="next_run">Next_Run</label>
+            <input type="datetime-local" id="next_run" name="next_run" value="{{ task_fields.next_run }}">
+            
+            <label for="status">Status</label>
+            <select id="status" name="status">
+                <option value="Active" {% if task_fields.staus == 'Active' %}selected{% endif %}>
+                    Active
+                </option>
+                <option value="Paused" {% if task_fields.status == 'Paused' %}selected{% endif %}>
+                    Paused
+                </option>
+            </select>
+            
+            <label for="topic">Topic</label>
+            <select id="topic" name="topic">
+                <option value="home" {% if task_fields.topic == 'home' %}selected{% endif %}>
+                    home
+                </option>
+                <option value="job-alerts" {% if task_fields.topic == 'job-alerts' %}selected{% endif %}>
+                    job-alerts
+                </option>
+            </select>
+            
+            <button type="button" id="submitBtn">Submit</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('submitBtn').addEventListener('click', async function() {
+        const form = document.getElementById('updateForm');
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+        
+        // This task_id value is coming from Fast-Api
+        const taskId = "{{ task_id }}"; 
+
+        try {
+            const response = await fetch(`/tasks/update/${taskId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            console.log(result);
+            // Check if the server response indicates success
+            if (response.ok) {
+                // Redirect to the home page or task list
+                window.location.href = '/tasks/update/response'; 
+            } else {
+                alert("Error: " + result.result);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+    </script>
+</body>
+</html>

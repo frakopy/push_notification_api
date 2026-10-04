@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Deleted</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+        .icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        h2 { margin: 0 0 10px 0; color: #2d3436; }
+        p { color: #636e72; margin-bottom: 25px; }
+        a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #00b894;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        a:hover { background-color: #009475; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <span class="icon">✅</span>
+        <h2>Task Deleted</h2>
+        <p>The task has been successfully removed from the DB.</p>
+        <button type="button" onclick="window.location.href='http://192.168.0.64:1081/tasks/list/'" style="background-color: #4dc1ff; color: white; border: none; padding: 12px; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; transition: background 0.3s;" onmouseover="this.style.backgroundColor='#0073e6'" onmouseout="this.style.backgroundColor='#4dc1ff'">Home</button>
+    </div>
+
+</body>
+</html>
