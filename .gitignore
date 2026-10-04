@@ -1,0 +1,24 @@
+# python venv files
+env/
+.env/
+venv/
+.venv/
+ENV/
+
+# python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Base de datos local SQLite (para no sobreescribir la de producción)
+notification.db
+*.db
+*.sqlite3
+
+# Evn varialbes
+.env.local
+
+# IDEs y editores de código
+.vscode/
+.idea/
