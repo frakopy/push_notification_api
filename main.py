@@ -63,7 +63,7 @@ def update_form(task_id: int, request: Request):
 @app.post("/tasks/create")
 def create_task(new_task : TaskCreate):
     new_task_dict = new_task.model_dump()
-    new_task_dict["next_run"] = f"{new_task_dict["next_run"]}T{new_task_dict["time"]}"
+    new_task_dict["next_run"] = f"{new_task_dict['next_run']}T{new_task_dict['time']}"
     new_task_dict.pop("time")
     result = insert_record(**new_task_dict)
     if result:
