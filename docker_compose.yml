@@ -7,6 +7,10 @@ services:
     image: frankb/push-ntfy-app:latest
     ports:
       - "1081:1081"
+    environment:
+      - TZ=America/Chicago
     restart: unless-stopped
     volumes:
       - /home/frankb/python-scripts/push_notification/notification.db:/app/notification.db
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
